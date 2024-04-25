@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head> </head>
+
+<body>
+    <div class="main-cont" id="main">
+        <h1>SELECT YOUR CHOICE</h1>
+        <div class="tabs">
+            <div id="men" class="category selected" onclick="switchmen()">
+                <p>Men</p>
+            </div>
+            <div id="women" class="category" onclick="switchwomen()">
+                <p>Women</p>
+            </div>
+            <div id="kids" class="category" onclick="switchkids()">
+                <p>Kids</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

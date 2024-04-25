@@ -1,0 +1,115 @@
+let mainCont = document.getElementById("main");
+let name = "Men";
+
+function switchwomen() {
+    name = "Women";
+    let womentab = document.getElementById("women");
+    womentab.classList.add("selected");
+    let mentab = document.getElementById("men");
+    mentab.classList.remove("selected");
+    let kidstab = document.getElementById("kids");
+    kidstab.classList.remove("selected");
+    getData();
+}
+
+function switchmen() {
+    name = "Men";
+    let womentab = document.getElementById("women");
+    womentab.classList.remove("selected");
+    let mentab = document.getElementById("men");
+    mentab.classList.add("selected");
+    let kidstab = document.getElementById("kids");
+    kidstab.classList.remove("selected");
+    getData();
+}
+
+function switchkids() {
+    name = "Kids";
+    let womentab = document.getElementById("women");
+    womentab.classList.remove("selected");
+    let mentab = document.getElementById("men");
+    mentab.classList.remove("selected");
+    let kidstab = document.getElementById("kids");
+    kidstab.classList.add("selected");
+    getData();
+}
+let container = document.createElement("div");
+container.classList.add("container");
+const getData = async () => {
+    container.innerHTML = "";
+    const data = await fetch("https://cdn.shopify.com/s/files/1/0564/3685/0790/files/multiProduct.json");
+    const response = await data.json();
+    const category = response.categories;
+
+    for (let each of category) {
+        if (each.category_name === name) {
+            console.log(each);
+
+
+            for (let item of each.category_products) {
+                console.log(item);
+                let itemCont = document.createElement("div");
+                itemCont.classList.add("item-cont");
+                let top = document.createElement("div");
+                top.classList.add("img-css");
+                top.style.position = "relative";
+                let image = document.createElement("img");
+                image.src = item.image;
+                image.style.width = "100%";
+                image.style.height = "100%";
+                top.appendChild(image);
+                if (item.badge_text !== null) {
+                    let badge = document.createElement("p");
+                    badge.textContent = item.badge_text;
+                    badge.style.position = "absolute";
+                    badge.style.top = "4px";
+                    badge.style.left = "8px";
+                    badge.style.backgroundColor = "white";
+                    badge.style.padding = "3px"
+                    top.appendChild(badge);
+
+                }
+                itemCont.appendChild(top);
+                let productDetails = document.createElement("div");
+                let productName = document.createElement("p");
+                productName.textContent = item.title;
+                productName.style.fontWeight = "bold";
+                productDetails.appendChild(productName);
+                let vendorName = document.createElement("li");
+                vendorName.textContent = item.vendor;
+                productDetails.appendChild(vendorName);
+                itemCont.appendChild(productDetails);
+                productDetails.classList.add("product-details");
+                let priceDetails = document.createElement("div");
+                let price = document.createElement("p");
+                price.textContent = "Rs " + item.price;
+                price.style.fontWeight = "bold";
+                priceDetails.appendChild(price);
+                let acPrice = document.createElement("p");
+                acPrice.textContent = item.compare_at_price;
+                acPrice.style.color = "grey";
+                acPrice.style.textDecoration = "line-through";
+                priceDetails.appendChild(acPrice);
+                let dcPrice = document.createElement("p");
+                let discount = Math.round(((item.compare_at_price - item.price) / item.compare_at_price) * 100);
+                dcPrice.textContent = discount + "% Off";
+                dcPrice.style.color = "red";
+                priceDetails.appendChild(dcPrice);
+                itemCont.appendChild(priceDetails);
+                priceDetails.classList.add("product-details");
+                let cart = document.createElement("button");
+                cart.textContent = "Add to Cart";
+                cart.style.backgroundColor = "black";
+                cart.style.color = "white";
+                cart.style.borderStyle = "none";
+                cart.style.padding = "5px 30px";
+                itemCont.appendChild(cart);
+                container.appendChild(itemCont);
+            }
+            main.appendChild(container);
+        }
+    }
+};
+
+
+getData();
